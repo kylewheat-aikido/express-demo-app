@@ -1,0 +1,22 @@
+name: Auto-approve on Aikido pass
+
+on:
+  check_run:
+    types: [completed]
+
+jobs:
+  approve:
+    if: >
+      github.event.check_run.name == 'Aikido Security: check code' &&
+      github.event.check_run.conclusion == 'success' &&
+      join(github.event.check_run.pull_requests.*.number, '') != ''
+    runs-on: ubuntu-latest
+    steps:
+      - name: Approve PR
+        env:
+          GH_TOKEN: ${{ secrets.APPROVERTOKEN }}
+          PR: ${{ github.event.check_run.pull_requests[0].number }}
+        run: |
+          gh pr review "$PR" --approve \
+            --repo "$GITHUB_REPOSITORY" \
+            --body "Aikido Security check passed."
