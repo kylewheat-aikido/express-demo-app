@@ -24,7 +24,7 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer $GH_TOKEN" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            "https://github.com/${OWNER}/${REPO}/pulls/${PR}/reviews" \
+            "https://github.com/kylewheat-aikido/express-demo-app/pulls/${PR}/reviews" \
             -d '{
               "body": "Aikido Security check passed, auto-approving.",
               "event": "APPROVE"
