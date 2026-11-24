@@ -1,0 +1,28 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Run tests with coverage (writes lcov.info)
+        run: npm run test:coverage | tee coverage.log
+      - name: Coverage summary
+        run: |
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          sed -n '/start of coverage/,/end of coverage/p' coverage.log >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+      # Add your Aikido lcov import step here, reading ./lcov.info
