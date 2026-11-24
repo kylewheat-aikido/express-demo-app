@@ -3,8 +3,14 @@
   "version": "1.0.0",
   "description": "Intentionally vulnerable Express app for DAST demos. DO NOT USE IN PRODUCTION.",
   "main": "server.js",
-  "scripts": { "start": "node server.js" },
-  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test \"tests/**/*.test.js\"",
+    "test:coverage": "node --test --experimental-test-coverage --test-coverage-include=\"lib/**\" --test-coverage-include=\"routes/**\" --test-reporter=spec --test-reporter-destination=stdout --test-reporter=lcov --test-reporter-destination=lcov.info \"tests/**/*.test.js\""
+  },
+  "engines": {
+    "node": ">=20"
+  },
   "dependencies": {
     "cookie-parser": "^1.4.6",
     "express": "^4.19.2",
