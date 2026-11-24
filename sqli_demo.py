@@ -18,8 +18,8 @@ def get_user():
     conn = get_db()
     # VULNERABLE: user input is concatenated directly into the SQL query.
     # Try: /user?username=' OR '1'='1
-    query = "SELECT id, username FROM users WHERE username = '" + username + "'"
-    rows = conn.execute(query).fetchall()
+    query = "SELECT id, username FROM users WHERE username = ?"
+    rows = conn.execute(query, (username,)).fetchall()
     return {"users": rows}
 
 
@@ -29,4 +29,4 @@ def get_user_safe(conn, username):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
