@@ -5,12 +5,12 @@ on:
     branches: [main]
   pull_request:
 
-permissions:
-  contents: read
-
 jobs:
   test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # required for keyless (OIDC) upload to Aikido
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -26,4 +26,7 @@ jobs:
           sed -n '/start of coverage/,/end of coverage/p' coverage.log >> "$GITHUB_STEP_SUMMARY"
           echo '```' >> "$GITHUB_STEP_SUMMARY"
       - name: Aikido Code Coverage
+        if: github.event_name == 'push'
         uses: AikidoSec/code-coverage-github-action@v2.1.1
+        with:
+          file-paths: lcov.info
