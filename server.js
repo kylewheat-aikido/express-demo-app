@@ -123,5 +123,6 @@ app.use((err, req, res, next) => res.status(500).send(`<pre>${err.stack}</pre>`)
 
    setupDb().then(() => {
      require('./private-api')(app, db, rows);
+    require('./routes/referrals')(app, db, rows);
      app.listen(PORT, () => console.log(`Listening on ${PORT}`));
    });
