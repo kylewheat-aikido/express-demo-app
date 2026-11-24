@@ -25,4 +25,5 @@ jobs:
           echo '```' >> "$GITHUB_STEP_SUMMARY"
           sed -n '/start of coverage/,/end of coverage/p' coverage.log >> "$GITHUB_STEP_SUMMARY"
           echo '```' >> "$GITHUB_STEP_SUMMARY"
-      # Add your Aikido lcov import step here, reading ./lcov.info
+      - name: Aikido Code Coverage
+        uses: AikidoSec/code-coverage-github-action@v2.1.1
